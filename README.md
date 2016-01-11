@@ -1,7 +1,7 @@
 
 ## Base  
 
-[base ionic-datepicker](https://github.com/rajeshwarpatlolla)
+[base ionic-datepicker](https://github.com/rajeshwarpatlolla/ionic-datepicker)
 
 [Thanks Rajeshwar](https://github.com/rajeshwarpatlolla)
 
@@ -25,7 +25,7 @@ $scope.datepickerObject = {
                   showTodayButton: 'true', 
                   modalHeaderColor: 'bar-positive', 
                   modalFooterColor: 'bar-positive',
-				  hastime:true, //add timepicker
+				  hastime:true, //add timepicker only use templateType modal
                   from: Today, 
                   to: new Date(Today.getFullYear()+10,11,31), 
                   callback: function (val) { 
