@@ -3,6 +3,7 @@
 
 [base ionic-datepicker](https://github.com/rajeshwarpatlolla)
 
+[Thanks Rajeshwar](https://github.com/rajeshwarpatlolla)
 
 ## Add 
 
