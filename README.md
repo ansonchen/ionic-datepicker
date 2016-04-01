@@ -26,6 +26,8 @@ $scope.datepickerObject = {
                   modalHeaderColor: 'bar-positive', 
                   modalFooterColor: 'bar-positive',
 				  hastime:true, //add timepicker only use templateType modal
+				  currentHour:10, //default hour
+				  currentSec:30,   //default Minutes
                   from: Today, 
                   to: new Date(Today.getFullYear()+10,11,31), 
                   callback: function (val) { 
@@ -43,6 +45,9 @@ $scope.datepickerObject = {
                   } else {
 					  
 					$scope.datepickerObject.inputDate = val;
+					//$scope.datepickerObject.currentHour = 10;
+					//$scope.datepickerObject.currentSec = 30;
+					
                     $scope.public.endDateshow = $filter('date')(val,'yyyy-MM-dd HH:mm');
                   }
                 };
