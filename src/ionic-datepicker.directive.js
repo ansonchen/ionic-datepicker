@@ -40,17 +40,24 @@
                 scope.clearButtonType = scope.inputObj.clearButtonType ? (scope.inputObj.clearButtonType) : 'button-stable cal-button';
                scope.dateFormat = scope.inputObj.dateFormat ? (scope.inputObj.dateFormat) : 'dd-MM-yyyy';
                 scope.closeOnSelect = scope.inputObj.closeOnSelect ? (scope.inputObj.closeOnSelect) : false;
-
+				
 				//time
 				scope.hastime = scope.inputObj.hastime ? (scope.inputObj.hastime) : false;
-				
-				if(scope.hastime){
+
+				var settingTime = function(){
 					var Today = new Date();
 					var h = Today.getHours(), s = Today.getMinutes();
 						h = h<10 ? ('0'+h) : (''+h);
 						s = s<10 ? ('0'+s) : (''+s);
-					scope.currentHour = {id: h, name:h};
-                	scope.currentSec = {id: s, name:s};
+					var ho = scope.inputObj.currentHour ? scope.inputObj.currentHour : h;
+					var so = scope.inputObj.currentSec ? scope.inputObj.currentSec : s;
+					scope.currentHour =  {id: ho, name:ho};
+                	scope.currentSec = {id: so, name:so};
+					scope._currentHour = {id: ho, name:ho};
+                	scope._currentSec = {id: so, name:so};
+				}
+				if(scope.hastime){
+					settingTime();					
 					scope.hourList = IonicDatepickerService.hourList;
 					scope.secList = IonicDatepickerService.secList;
 				}
@@ -202,13 +209,18 @@
                     var epochLocal = date.getTime();
                     return ((scope.disabledDates.indexOf(epochLocal) > -1) || (scope.enableDatesFrom.isSet && scope.enableDatesFrom.epoch > epochLocal) || (scope.enableDatesTo.isSet && scope.enableDatesTo.epoch < epochLocal));
                 };
-                var refreshDateList = function (current_date) {
+				
+				
+                var refreshDateList = function (current_date) {					
+						
+					
                     current_date.setHours(0);
                     current_date.setMinutes(0);
                     current_date.setSeconds(0);
                     current_date.setMilliseconds(0);
 
                     scope.selctedDateString = (new Date(current_date)).toString();
+					
                     currentDate = angular.copy(current_date);
 
                     var firstDay = new Date(current_date.getFullYear(), current_date.getMonth(), 1).getDate();
@@ -259,25 +271,54 @@
 
                 };
 
+				var clickDateTimeEvent = function(current_date){
+					
+					//scope.inputObj.curValue = current_date;
 				
+					if(scope.inputObj.hastime){
+						
+						
+			/*			var h = current_date.getHours(), s = current_date.getMinutes();	
+						
+						h = h<10 ? ('0'+h) : (''+h);
+						s = s<10 ? ('0'+s) : (''+s);		
+						
+						
+						scope.currentHour = {id: h, name:h};
+						scope.currentSec = {id: s, name:s};	*/
+						
+						settingTime();
+						scope.hastime = true;
+						
+					}
+					
+					refreshDateList(current_date);
+					
+				}
 				scope.hourChanged = function(hour){
 				
 					
-					scope.currentHour = hour;
+					scope._currentHour = hour;
+					
 					
 
 					
 				};
 				scope.secChanged = function(sec){
 				
-					scope.currentSec = sec;	
+					scope._currentSec = sec;	
 
 					
 				};
 
                 scope.monthChanged = function (month) {
+					
                     var monthNumber = scope.monthsList.indexOf(month);
-                    currentDate.setMonth(monthNumber);
+					
+					if(currentDate.getDate()>28){						
+						currentDate.setDate(1);
+					}
+					currentDate.setMonth(monthNumber);
                     refreshDateList(currentDate);
                 };
 
@@ -382,11 +423,22 @@
                         } else {
 							
 						var bk = scope.date_selection.selectedDate;
-							if(scope.hastime){
+							if(scope.inputObj.hastime){
+								scope.currentHour = scope._currentHour;
+								scope.currentSec = scope._currentSec;
+								
 								bk.setHours(Number(scope.currentHour.name));
 								bk.setMinutes(Number(scope.currentSec.name));
+								
+								scope.inputObj.currentHour = Number(scope.currentHour.name);
+								scope.inputObj.currentSec = Number(scope.currentSec.name);
+								scope.hastime  = false;	
 							}
+
+						scope.inputObj.inputDate = bk;
                         scope.inputObj.callback(bk);
+							
+							
 						//scope.inputObj.callback(scope.date_selection.selectedDate);
                     }
                 }
@@ -421,7 +473,23 @@
                 }
 
                 //Called when the user clicks on the 'Close' button of the modal
-                scope.closeIonicDatePickerModal = function () {
+                scope.closeIonicDatePickerModal = function () {					
+					
+					if(scope.inputObj.hastime){
+						
+						scope.hastime  = false;					
+						scope._currentHour = scope.currentHour;
+						scope._currentSec = scope.currentSec;
+
+						scope.inputObj.inputDate.setHours(Number(scope.currentHour.name));
+						scope.inputObj.inputDate.setMinutes(Number(scope.currentSec.name));
+					
+					}
+					//scope.inputObj.inputDate = curValue;
+					
+					
+					//console.log('C:'+scope.inputObj.inputDate);
+					
                     scope.inputObj.callback(undefined);
                     scope.closeModal();
                 };
@@ -462,14 +530,19 @@
                 //Called when the user clicks on the button to invoke the 'ionic-datepicker'
                 element.on("click", function () {
                     //This code is added to set passed date from datepickerObject
+					//console.log(scope.inputObj.inputDate);
                     if (scope.inputObj.inputDate) {
-                        refreshDateList(scope.inputObj.inputDate);
+						//refreshDateList
+                        clickDateTimeEvent(scope.inputObj.inputDate);
                     } else if (scope.date_selection.selectedDate) {
-                        refreshDateList(scope.date_selection.selectedDate);
+
+                        clickDateTimeEvent(scope.date_selection.selectedDate);
                     } else if (scope.ipDate) {
-                        refreshDateList(angular.copy(scope.ipDate));
+
+                        clickDateTimeEvent(angular.copy(scope.ipDate));
                     } else {
-                        refreshDateList(new Date());
+	
+                        clickDateTimeEvent(new Date());
                     }
                     if (scope.templateType.toLowerCase() === 'modal') {
                         scope.openModal();

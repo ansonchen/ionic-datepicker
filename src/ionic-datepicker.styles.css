@@ -4,11 +4,18 @@
   text-align: center;
   padding-bottom: 5px;
 }
-
+.ionic_datepicker_modal .bar .title{ display: block; text-align: center}
 .ionic_datepicker .color_blue {
   color: rgb(56, 126, 245);
 }
-
+.ionic_datepicker .bar.bar-positive,.ionic_datepicker .bar.bar-positive.bar-footer,
+.ionic_datepicker_modal .bar.bar-positive,.ionic_datepicker_modal .bar.bar-positive.bar-footer
+{
+	background-color: #333;
+	border-color:#333;
+	background-image:none;
+	border-image: none;
+}
 .ionic_datepicker .bg_color_blue {
   background-color: rgb(56, 126, 245);
 }
@@ -31,6 +38,7 @@
   padding: 5px;
 }
 
+.ionic_datepicker .calendar_grid .col{ text-align: center;}
 .ionic_datepicker .date_selected {
   background-color: rgba(56, 126, 245, 1);
 }
@@ -78,16 +86,15 @@
 }
 .ionic_datepicker_modal_content .ionic_datepicker .selected_date_full {
   font-size: 20px;
+  padding: 10px 0 5px 0;
 }
 .ionic_datepicker .font_22px {
   font-size: 22px;
 }
 .ionic_datepicker_modal_content {
-  padding-top: 10%;
+  padding-top: 0;
 }
-.ionic_datepicker_modal_content .ionic_datepicker .selected_date_full{
-  padding: 20px;
-}
+
 .ionic_datepicker .cal-button {
     padding: 0px !important;
     font-size: 14px !important;
@@ -100,9 +107,14 @@
     overflow: inherit !important;
 }
 
-.ionic_datepicker_modal .timeselect{ width: 100%; height: 30px;  position: absolute; top:-30px; left:0; right:0; text-align: center;font-size: 14px; color:#111;}
+.ionic_datepicker_modal .timeselect{ width: 200px; margin: 0 auto; height: 40px; text-align: center;font-size: 14px;line-height: 40px; color:#111;
+}
 
-.ionic_datepicker_modal .timeselect select{ margin: 4px 2px;}
+.ionic_datepicker_modal .timeselect select{ margin: 4px 2px;font-size: 16px;  direction: ltr; padding: 0px 10px;   left: 0;
+  width: 100%;
+  max-width: 100%;}
+.ionic_datepicker_modal .timeselect select option{font-size: 12px}
+
 @media (min-width: 680px) {
   .ionic_datepicker_modal_content {
     padding-top: 0;

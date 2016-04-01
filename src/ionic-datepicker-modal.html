@@ -12,14 +12,11 @@
           </button>
         </div>
         <div class="col col-80 drop_down">
-                    <div class="row select_section" style="margin-top: 5px;">
+                    <div class="row select_section">
                         <label class="item item-input item-select col col-50 month_select">
                             <select ng-model="currentMonth" ng-change="monthChanged(currentMonth)" class="month_select" ng-options="month as month for month in monthsList " ng-selected="month == currentMonthSelected">
                   </select>
                 </label>
-
-
-
                         <label class="item item-input item-select col col-50 year_select">
                             <select ng-model="currentYear" ng-change="yearChanged(currentYear)" class="year_select" ng-options="year as year for year in yearsList " ng-selected="year == year">
                   </select>
@@ -48,14 +45,29 @@
           </div>
         </div>
       </div>
-            <div class="error_msg padding-horizontal" ng-show="date_selection.submitted === true && date_selection.selected === false" ng-bind="errorMsgLabel">
+      
+      <div class="timeselect row" ng-if="hastime">
+                        <label class="item item-input item-select col col-45">
+                            <select ng-model="currentHour"  ng-options="option.name for option in hourList track by option.id " ng-change="hourChanged(currentHour)" ></select>
+                            
+                  </select>
+                </label>
+		<label class="col col-10">：</label>
+                        <label class="item item-input item-select col col-45">
+                            <select ng-model="currentSec" ng-options="option.name for option in secList track by option.id " ng-change="secChanged(currentSec)"></select>
+                  </select>
+                </label>
+              </div>
+              
+<!--      <div class="timeselect" ng-if="hastime">
+       <select ng-model="currentHour"  ng-options="option.name for option in hourList track by option.id " ng-change="hourChanged(currentHour)" ></select>:<select ng-model="currentSec" ng-options="option.name for option in secList track by option.id " ng-change="secChanged(currentSec)"></select>
+   </div>-->
+      <div class="error_msg padding-horizontal" ng-show="date_selection.submitted === true && date_selection.selected === false" ng-bind="errorMsgLabel">
       </div>
     </div>
   </ion-content>
   <ion-footer-bar ng-class="modalFooterColor">
-   <div class="timeselect" ng-if="hastime">
-       <select ng-model="currentHour"  ng-options="option.name for option in hourList track by option.id " ng-change="hourChanged(currentHour)" ></select>:<select ng-model="currentSec" ng-options="option.name for option in secList track by option.id " ng-change="secChanged(currentSec)"></select>
-   </div>
+   
     <div class="row no_padding">
       <div class="text-center" ng-class="{'col-33': !closeOnSelect, 'col-50': closeOnSelect}" ng-click="closeIonicDatePickerModal()">
         <button class="button button-clear">{{closeLabel}}</button>
